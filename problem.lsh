@@ -1,0 +1,39 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Copyright Martin Cenek <drcenek@gmail.com> 2011
+;; All source code is released under the terms of the MIT License.
+;; See LICENSE for more information.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Simple example defining a problem object with a fitness funtion.
+
+;;a dummy base object class defining problemmethod fitness has to be
+;;overwriten by user to encode the problem and returns a fitness value
+;;of how well a binary genome performed on given test (or an objective
+;;function
+
+(defclass Problem object
+)
+
+(defmethod Problem Problem()
+()
+)
+
+(defmethod Problem fitness (genome test)
+  (declare (-idx1- (-uchar-)) genome test)
+  (list 0.0 0.0)
+)
+
+;;reinitialize parasite population (non-spatial ev, and coev)
+;; do it inplace by changing <pop> array
+(defmethod Problem paras_init(pop)
+  (declare (-idx2- (-uchar-)) pop)
+  ()
+)
+
+;;reinitialize parasite population (spatial ev, and coev)
+;; do it inplace by changing <pop> array
+(defmethod Problem paras_init_spatial(pop)
+  (declare (-idx3- (-uchar-)) pop)
+  ()
+)
+
+(dhc-make-class () Problem)

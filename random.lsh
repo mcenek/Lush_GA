@@ -1,0 +1,14 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Copyright Martin Cenek <drcenek@gmail.com> 2011
+;; All source code is released under the terms of the MIT License.
+;; See LICENSE for more information.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(libload "libc/make")
+
+(let ((lm (new LushMake)))
+  (==> lm rule "random.o" '("random.c"))
+  (==> lm setflags "-lm")
+  (==> lm make)
+  (==> lm load))
+
+

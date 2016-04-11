@@ -1,0 +1,54 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Copyright Martin Cenek <drcenek@gmail.com> 2011
+;; All source code is released under the terms of the MIT License.
+;; See LICENSE for more information.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(libload "libc/make")
+(libload "setup.lsh")
+(libload "ga.lsh")
+
+;;user defined problem as an instance of Problem base
+;;object
+(defclass myProblem Problem
+)
+
+(defmethod myProblem myProblem()
+())
+
+
+;;problem is defined as looking for a genome with the largest number
+;;of 1s (perfect solution is genome with all 1s - the same if
+;;population of tests is evolved
+(defmethod myProblem fitness (genome test)
+  (declare (-idx1- (-uchar-)) genome test)
+  (list (to-double ((idx-sum genome))) (to-double ((idx-sum test))))
+)
+
+(dhc-make-class () myProblem)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;test the GA object
+(defun test ()
+  (let* ((pr (new myProblem))
+	 (ga (new GeneticAlgorithm pr 1000 100 100 75 75 "" )))
+    
+    ;;(printf "%d " (==> ga set_seed -605930))
+    (==> ga set_reproduction_selection 2)
+    ;;Run non-spatial evolution (standard evolution)
+    (==> ga evolution 0.5 0.0 3)
+    (==> ga plot)
+    ;;Run non-spatial coevolution
+    (==> ga set_host_mutation 0.2)
+    (==> ga set_paras_mutation 0.2)
+    (==> ga coevolution 0.5 0 3)
+    (==> ga plot)
+    ;; ;;Run spatial evolution 
+    (==> ga evolution_spatial 0.5 0.0)
+    (==> ga plot)
+    ;;Run spatial coevolution
+    (==> ga set_host_crossover 0)
+    (==> ga set_host_mutation 0.08)
+    (==> ga set_paras_mutation 0.05)
+    (==> ga coevolution_spatial 0.5 0.0)
+    (==> ga plot)
+    ))
